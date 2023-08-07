@@ -52,16 +52,18 @@ class BPlusTreeLeafPage : public BPlusTreePage {
   int KeyIndex(const KeyType &key, const KeyComparator &comparator) const;
   const MappingType &GetItem(int index);
 
+  bool IsSafe(OpType op);
+
   // insert and delete methods
   int Insert(const KeyType &key, const ValueType &value, const KeyComparator &comparator);
   bool Lookup(const KeyType &key, ValueType *value, const KeyComparator &comparator) const;
   int RemoveAndDeleteRecord(const KeyType &key, const KeyComparator &comparator);
 
   // Split and Merge utility methods
-  void MoveHalfTo(BPlusTreeLeafPage *recipient);
-  void MoveAllTo(BPlusTreeLeafPage *recipient);
-  void MoveFirstToEndOf(BPlusTreeLeafPage *recipient);
-  void MoveLastToFrontOf(BPlusTreeLeafPage *recipient);
+  void MoveHalfTo(BPlusTreeLeafPage *recipient, const KeyComparator &comparator);
+  void MoveAllTo(BPlusTreeLeafPage *recipient, const KeyComparator &comparator);
+  void MoveFirstToEndOf(BPlusTreeLeafPage *recipient, const KeyComparator &comparator);
+  void MoveLastToFrontOf(BPlusTreeLeafPage *recipient, const KeyComparator &comparator);
 
  private:
   void CopyNFrom(MappingType *items, int size);

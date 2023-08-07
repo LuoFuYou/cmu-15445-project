@@ -13,11 +13,12 @@
 #include <queue>
 #include <string>
 #include <vector>
+#include <mutex>
 
 #include "concurrency/transaction.h"
 #include "storage/index/index_iterator.h"
 #include "storage/page/b_plus_tree_internal_page.h"
-#include "storage/page/b_plus_tree_leaf_page.h"
+#include "storage/page/b_plus_tree_leaf_page.h" 
 
 namespace bustub {
 
@@ -79,6 +80,10 @@ class BPlusTree {
   // expose for test purpose
   Page *FindLeafPage(const KeyType &key, bool leftMost = false);
 
+  Page *FindLeafPageRW(const KeyType &key, enum OpType op, bool leftMost = false, Transaction *transaction = nullptr);
+
+  void UnLatchAndUnpin(enum OpType op, Transaction *transaction);
+
  private:
   void StartNewTree(const KeyType &key, const ValueType &value);
 
@@ -116,6 +121,7 @@ class BPlusTree {
   KeyComparator comparator_;
   int leaf_max_size_;
   int internal_max_size_;
+  std::mutex latch_;
 };
 
 }  // namespace bustub

@@ -27,6 +27,12 @@ namespace bustub {
 // define page type enum
 enum class IndexPageType { INVALID_INDEX_PAGE = 0, LEAF_PAGE, INTERNAL_PAGE };
 
+enum class OpType {
+  READ = 0,
+  INSERT,
+  DELETE
+};
+
 /**
  * Both internal and leaf page are inherited from this page.
  *
@@ -67,7 +73,7 @@ class BPlusTreePage {
   IndexPageType page_type_ __attribute__((__unused__));
   lsn_t lsn_ __attribute__((__unused__));
   int size_ __attribute__((__unused__));
-  int max_size_ __attribute__((__unused__));
+  int max_size_ __attribute__((__unused__)); 
   page_id_t parent_page_id_ __attribute__((__unused__));
   page_id_t page_id_ __attribute__((__unused__));
 };
