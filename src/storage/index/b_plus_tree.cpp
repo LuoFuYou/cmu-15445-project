@@ -52,7 +52,9 @@ bool BPLUSTREE_TYPE::GetValue(const KeyType &key, std::vector<ValueType> *result
 
   RID rid;
   bool res = leaf_page->Lookup(key, &rid, comparator_);
-  (*result).push_back(rid);
+  if (res) {
+    (*result).push_back(rid);
+  }
 
   if (transaction != nullptr) {
     page->RUnlatch();

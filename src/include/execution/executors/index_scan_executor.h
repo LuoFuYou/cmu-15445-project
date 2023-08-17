@@ -19,6 +19,7 @@
 #include "execution/executors/abstract_executor.h"
 #include "execution/plans/index_scan_plan.h"
 #include "storage/table/tuple.h"
+#include "storage/index/generic_key.h"
 
 namespace bustub {
 
@@ -26,6 +27,9 @@ namespace bustub {
  * IndexScanExecutor executes an index scan over a table.
  */
 
+// #define INDEXSCANEXECUTOR_TYPE IndexScanExecutor<KeyType, ValueType, KeyComparator>
+
+// INDEX_TEMPLATE_ARGUMENTS
 class IndexScanExecutor : public AbstractExecutor {
  public:
   /**
@@ -44,5 +48,9 @@ class IndexScanExecutor : public AbstractExecutor {
  private:
   /** The index scan plan node to be executed. */
   const IndexScanPlanNode *plan_;
+  BPlusTreeIndex<GenericKey<8>, RID, GenericComparator<8>> *b_plus_tree_index_;
+  std::unique_ptr<IndexIterator<GenericKey<8>, RID, GenericComparator<8>>> itr_;
+  TableHeap *table_heap_;
+  Schema *schema_;
 };
 }  // namespace bustub

@@ -19,6 +19,7 @@
 #include "execution/executors/abstract_executor.h"
 #include "execution/plans/insert_plan.h"
 #include "storage/table/tuple.h"
+#include "execution/executor_factory.h"
 
 namespace bustub {
 /**
@@ -47,5 +48,9 @@ class InsertExecutor : public AbstractExecutor {
  private:
   /** The insert plan node to be executed. */
   const InsertPlanNode *plan_;
+  TableHeap *table_heap_;
+  Schema *schema_;
+  bool has_inserted_;
+  std::unique_ptr<AbstractExecutor> child_node_;
 };
 }  // namespace bustub

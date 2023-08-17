@@ -22,7 +22,7 @@
 #include "execution/executors/limit_executor.h"
 #include "execution/executors/nested_index_join_executor.h"
 #include "execution/executors/nested_loop_join_executor.h"
-#include "execution/executors/seq_scan_executor.h"
+#include "execution/executors/seq_scan_executor.h"  
 #include "execution/executors/update_executor.h"
 #include "storage/index/generic_key.h"
 

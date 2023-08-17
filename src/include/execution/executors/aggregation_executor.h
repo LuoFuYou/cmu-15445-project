@@ -25,6 +25,7 @@
 #include "execution/plans/aggregation_plan.h"
 #include "storage/table/tuple.h"
 #include "type/value_factory.h"
+#include "execution/executor_factory.h"
 
 namespace bustub {
 /**
@@ -41,6 +42,7 @@ class SimpleAggregationHashTable {
                              const std::vector<AggregationType> &agg_types)
       : agg_exprs_{agg_exprs}, agg_types_{agg_types} {}
 
+  
   /** @return the initial aggregrate value for this aggregation executor */
   AggregateValue GenerateInitialAggregateValue() {
     std::vector<Value> values;
@@ -196,8 +198,8 @@ class AggregationExecutor : public AbstractExecutor {
   /** The child executor whose tuples we are aggregating. */
   std::unique_ptr<AbstractExecutor> child_;
   /** Simple aggregation hash table. */
-  // Uncomment me! SimpleAggregationHashTable aht_;
+  std::unique_ptr<SimpleAggregationHashTable> aht_;
   /** Simple aggregation hash table iterator. */
-  // Uncomment me! SimpleAggregationHashTable::Iterator aht_iterator_;
+  std::unique_ptr<SimpleAggregationHashTable::Iterator> aht_iterator_;
 };
 }  // namespace bustub

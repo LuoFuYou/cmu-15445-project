@@ -20,6 +20,7 @@
 #include "execution/executors/abstract_executor.h"
 #include "execution/plans/delete_plan.h"
 #include "storage/table/tuple.h"
+#include "execution/executor_factory.h"
 
 namespace bustub {
 /**
@@ -51,5 +52,7 @@ class DeleteExecutor : public AbstractExecutor {
   const DeletePlanNode *plan_;
   /** The child executor to obtain rid from. */
   std::unique_ptr<AbstractExecutor> child_executor_;
+  TableHeap *table_heap_;
+  Schema *schema_;
 };
 }  // namespace bustub
