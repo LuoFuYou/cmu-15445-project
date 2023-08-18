@@ -44,10 +44,18 @@ class LockManager {
   };
 
   class LockRequestQueue {
-   public:
-    std::list<LockRequest> request_queue_;
-    std::condition_variable cv_;  // for notifying blocked transactions on this rid
-    bool upgrading_ = false;
+    public:
+      LockRequestQueue() : is_writting_(false), reading_count_(0) {}
+
+      LockRequestQueue(const LockRequestQueue& other) : is_writting_(other.is_writting_), reading_count_(other.reading_count_) {
+          request_queue_ = other.request_queue_;
+      }
+
+      std::list<LockRequest> request_queue_;
+      std::condition_variable cv_;
+      bool upgrading_ = false;
+      bool is_writting_;
+      int reading_count_;
   };
 
  public:
@@ -125,11 +133,15 @@ class LockManager {
    */
   bool HasCycle(txn_id_t *txn_id);
 
+  bool dfs(txn_id_t current, std::vector<txn_id_t> &trial, std::unordered_set<txn_id_t> &visited, txn_id_t *txn_id);
+
   /** @return the set of all edges in the graph, used for testing only! */
   std::vector<std::pair<txn_id_t, txn_id_t>> GetEdgeList();
 
   /** Runs cycle detection in the background. */
   void RunCycleDetection();
+
+  bool LockPrepare(Transaction *txn, const RID &rid);
 
  private:
   std::mutex latch_;
